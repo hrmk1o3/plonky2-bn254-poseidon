@@ -1,4 +1,4 @@
-pub(crate) use halo2_proofs::halo2curves::bn256::Fr;
+pub use halo2_proofs::halo2curves::bn256::Fr;
 use halo2curves::{group::ff::PrimeField, FieldExt};
 use num::{BigUint, Zero};
 use plonky2::{
@@ -58,7 +58,6 @@ impl FrTarget {
         value: &Fr,
         builder: &mut CircuitBuilder<F, D>,
     ) -> Self {
-        // let limb_values = value.to_u32_digits();
         let value_bytes = value.to_repr();
         let limb_values = value_bytes
             .chunks(4)
@@ -219,7 +218,7 @@ impl FrTarget {
         }
     }
 
-    /// Returns self * y + z. This is no more efficient than mul-then-add; it's purely for convenience (only need to call one CircuitBuilder function).
+    /// Returns self * y + z.
     pub fn mul_add<F: RichField + Extendable<D>, const D: usize>(
         &self,
         y: &Self,
